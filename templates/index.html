@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="hero">
+  <div class="hero-left">
+    <!-- show turbine.png on the homepage; fall back to wind.svg if missing -->
+<img src="{{ url_for('static', filename='img/turbine.png') }}"
+     alt="turbine"
+     class="hero-image"
+   >
+
+  </div>
+  <div class="hero-right">
+    <p class="lead">Renewable energy, such as wind and solar energy, plays an increasing role in the supply of energy worldwide. Wind energy is a key player in the field of renewable energy.</p>
+
+    <p class="lead">Levels of production of wind energy are hard to predict as they rely on potentially unstable weather conditions. Wind speed is crucial for energy production based on wind.</p>
+
+    <a class="cta" href="{{ url_for('y_predict') }}">WANT TO PREDICT THE ENERGY??</a>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,62 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="predict-grid">
+  <section class="left-card">
+    <h2>Give your city name to know the weather conditions..</h2>
+
+    <select id="city" class="city-select">
+      {% for c in cities %}
+      <option value="{{ c }}">{{ c }}</option>
+      {% endfor %}
+    </select>
+
+    <button id="check-weather" class="btn">CHECK THE WEATHER CONDITIONS</button>
+
+    <h3>The weather conditions of the city are</h3>
+    <div class="weather-list">
+      <div class="weather-row"><span>Temperature</span><span id="w-temp">—</span></div>
+      <div class="weather-row"><span>Humidity</span><span id="w-hum">—</span></div>
+      <div class="weather-row"><span>Pressure</span><span id="w-pres">—</span></div>
+      <div class="weather-row"><span>Wind Speed</span><span id="w-wind">—</span></div>
+    </div>
+  </section>
+
+  <section class="right-card">
+    <h2>Predict the Wind Energy!!</h2>
+
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" action="{{ url_for('y_predict') }}" class="predict-form">
+      <input name="theoretical_power" placeholder="Theoretical Power in KWh" required>
+      <input name="windspeed" placeholder="Wind Speed in m/s" required>
+      <button type="submit" class="btn">PREDICT</button>
+    </form>
+
+    {% if prediction is not none %}
+      <p class="result">The energy predicted is <strong>{{ prediction }}</strong> KWh</p>
+    {% endif %}
+  </section>
+</div>
+
+<script>
+document.getElementById('check-weather').addEventListener('click', function () {
+  const city = document.getElementById('city').value;
+  fetch('/weather?city=' + encodeURIComponent(city))
+    .then(r => r.json())
+    .then(data => {
+      if (data.error) {
+        alert('Weather not found');
+        return;
+      }
+      document.getElementById('w-temp').textContent = data.temp_c + ' °C';
+      document.getElementById('w-hum').textContent = data.humidity + ' %';
+      document.getElementById('w-pres').textContent = data.pressure_mm + ' mmHG';
+      document.getElementById('w-wind').textContent = data.wind_mps + ' m/s';
+    })
+    .catch(() => alert('Could not fetch weather'));
+});
+</script>
+{% endblock %}
