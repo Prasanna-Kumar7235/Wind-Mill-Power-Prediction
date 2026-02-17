@@ -1,0 +1,15 @@
+# Importing Necessary Libraries
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import matplotlib.pyplot as plt
+import seaborn as sns
+import joblib
+path = "C:\Users\PRASANNA KUMAR\OneDrive\Desktop\Flask - Wind-Mill-Power-Prediction\winddataset"
+
+df = pd.read_csv(path)
+
+df.rename(columns={'Date/Time':'Time',
+                   'LV ActivePower (kW)':'ActivePower(kW)',
+                   "Wind Speed (m/s)":"WindSpeed(m/s)",
+                   "Wind Direction (°)":"Wind_Direction"},
+          inplace=True)
